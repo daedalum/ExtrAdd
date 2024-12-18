@@ -27,7 +27,7 @@ list_ex_audio.sort()
 mkdir(f"{path_ex_audio}/Extract")
 
 for p, v in enumerate(list_ex_audio):
-    system(f'ffmpeg -i "{path_ex_audio}/{v}" -vn -acodec copy "{path_ex_audio}/Extract/{p+1:02d}.aac"')
+    system(f'ffmpeg -i "{path_ex_audio}/{v}" -q:a 0 -map a "{path_ex_audio}/Extract/{p+1:02d}.mp3"')
 
 
 ###
@@ -43,4 +43,4 @@ list_og_video.sort()
 mkdir(f"{path_og_video}/Modified")
 
 for p, v in enumerate(list_og_video):
-    system(f'ffmpeg -i "{path_og_video}/{v}" -i "{path_ex_audio}/Extract/{list_new_audio[p]}" -map 0 -map 1:a -c:v copy -sn -shortest "{path_og_video}/Modified/{p+1:02d}.mkv"')
+    system(f'ffmpeg -i "{path_og_video}/{v}" -i "{path_ex_audio}/Extract/{list_new_audio[p]}" -map 0 -map 1:a -metadata:s:a:1 language=pt-br -c:v copy -sn -shortest "{path_og_video}/Modified/{p+1:02d}.mkv"')
